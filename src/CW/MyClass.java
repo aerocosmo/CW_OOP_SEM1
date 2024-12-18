@@ -34,26 +34,6 @@ public class MyClass {
     }
 
     // Метод для вызова аннотированных методов
-    public void invokeAnnotatedMethods() throws InvocationTargetException, IllegalAccessException {
-        Method[] methods = MyClass.class.getDeclaredMethods(); // Получаем все методы класса
-
-        for (Method m : methods) {
-            // Проверяем наличие аннотации Repeat
-            if (m.isAnnotationPresent(Repeat.class)) {
-                Repeat repeatAnnotation = m.getAnnotation(Repeat.class);
-                int repeatCount = repeatAnnotation.value(); // Получаем количество повторений
-                m.setAccessible(true); // Делаем метод доступным (для приватных и защищенных)
-
-                // Создаем аргументы для метода
-                Object[] args = createArguments(m);
-
-                // Вызов метода столько раз, сколько указано в аннотации
-                for (int i = 0; i < repeatCount; i++) {
-                    m.invoke(this, args);
-                }
-            }
-        }
-    }
 
     // Метод для создания аргументов в зависимости от параметров метода
     private Object[] createArguments(Method method) {
@@ -78,10 +58,5 @@ public class MyClass {
         }
         
         return args;
-    }
-
-    public static void main(String[] args) throws InvocationTargetException, IllegalAccessException {
-        MyClass obj = new MyClass();
-        obj.invokeAnnotatedMethods(); // Вызов метода для выполнения аннотированных методов
     }
 }
