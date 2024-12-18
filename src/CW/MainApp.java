@@ -97,45 +97,65 @@ public class MainApp {
 
 	// Создание панели для Задания 2
 	private void createTask2Panel(JPanel panel) {
-		JPanel inputPanel = new JPanel(new BorderLayout());
+	    JPanel inputPanel = new JPanel(new BorderLayout());
 
-		JButton annotationButton = new JButton("Запустить аннотированные методы");
+	    JButton annotationButton = new JButton("Запустить аннотированные методы");
 
-		annotationButton.addActionListener(e -> {
-			try {
-				MyClass obj = new MyClass();
-				Method[] methods = MyClass.class.getDeclaredMethods();
-				StringBuilder output = new StringBuilder();
+	    annotationButton.addActionListener(e -> {
+	        try {
+	            MyClass obj = new MyClass();
+	            StringBuilder output = new StringBuilder();
 
-				for (Method m : methods) {
-					if (m.isAnnotationPresent(Repeat.class)) {
-						Repeat repeatAnnotation = m.getAnnotation(Repeat.class);
-						int repeatCount = repeatAnnotation.value();
-						m.setAccessible(true);
-						for (int i = 0; i < repeatCount; i++) {
-							if (m.getParameterCount() == 1 && m.getParameterTypes()[0] == String.class)
-								m.invoke(obj, "testString");
-							else if (m.getParameterCount() == 1 && m.getParameterTypes()[0] == double.class)
-								m.invoke(obj, 3.14);
-						}
-						output.append("Метод ").append(m.getName()).append(" выполнен ").append(repeatCount)
-								.append(" раз\n");
-					}
-				}
-				outputAreaTask2.setText(output.toString());
-			} catch (IllegalAccessException | InvocationTargetException ex) {
-				ex.printStackTrace();
-				outputAreaTask2.setText("Ошибка при выполнении метода: " + ex.getMessage());
-			}
-		});
+	            // Вызов вспомогательного метода для выполнения аннотированных методов
+	            output.append(invokeAnnotatedMethods(obj));
 
-		inputPanel.add(annotationButton, BorderLayout.NORTH);
+	            outputAreaTask2.setText(output.toString());
+	        } catch (IllegalAccessException | InvocationTargetException ex) {
+	            ex.printStackTrace();
+	            outputAreaTask2.setText("Ошибка при выполнении метода: " + ex.getMessage());
+	        }
+	    });
 
-		outputAreaTask2 = new JTextArea();
-		outputAreaTask2.setEditable(false);
+	    inputPanel.add(annotationButton, BorderLayout.NORTH);
 
-		panel.add(inputPanel, BorderLayout.NORTH);
-		panel.add(new JScrollPane(outputAreaTask2), BorderLayout.CENTER);
+	    outputAreaTask2 = new JTextArea();
+	    outputAreaTask2.setEditable(false);
+
+	    panel.add(inputPanel, BorderLayout.NORTH);
+	    panel.add(new JScrollPane(outputAreaTask2), BorderLayout.CENTER);
+	}
+
+	// Вспомогательный метод для вызова аннотированных методов
+	private String invokeAnnotatedMethods(MyClass obj) throws IllegalAccessException, InvocationTargetException {
+	    StringBuilder output = new StringBuilder();
+	    Method[] methods = MyClass.class.getDeclaredMethods();
+
+	    for (Method m : methods) {
+	        if (m.isAnnotationPresent(Repeat.class)) {
+	            Repeat repeatAnnotation = m.getAnnotation(Repeat.class);
+	            int repeatCount = repeatAnnotation.value();
+	            m.setAccessible(true); // Делаем метод доступным
+
+	            // Вызов метода столько раз, сколько указано в аннотации
+	            invokeMethodMultipleTimes(m, obj, repeatCount);
+	            output.append("Метод ").append(m.getName()).append(" выполнен ").append(repeatCount).append(" раз\n");
+	        }
+	    }
+	    return output.toString();
+	}
+
+	// Вспомогательный метод для многократного вызова метода
+	private void invokeMethodMultipleTimes(Method method, MyClass obj, int repeatCount) throws IllegalAccessException, InvocationTargetException {
+	    for (int i = 0; i < repeatCount; i++) {
+	        if (method.getParameterCount() == 1) {
+	            Class<?> paramType = method.getParameterTypes()[0];
+	            if (paramType == String.class) {
+	                method.invoke(obj, "testString"); // Передаем строку для защищенного метода
+	            } else if (paramType == double.class) {
+	                method.invoke(obj, 3.14); // Передаем число для приватного метода
+	            }
+	        }
+	    }
 	}
 
 	// Создание панели для Задания 3
