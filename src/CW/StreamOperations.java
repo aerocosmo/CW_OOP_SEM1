@@ -29,25 +29,44 @@ public class StreamOperations {
 	}
 
 	public static Map<Character, String> stringToMap(List<String> strings) {
-		return strings.stream().collect(Collectors.toMap(s -> s.charAt(0), s -> s.substring(1)));
+	    return strings.stream()
+	        .collect(Collectors.toMap(
+	            s -> s.charAt(0), // ключ - первый символ строки
+	            s -> s.substring(1), // значение - остаток строки
+	            (existing, replacement) -> replacement)); // если есть дублирование ключей, заменяем старое значение новым
 	}
 
-	public static void main(String[] args) {
-		List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
-		System.out.println("Average: " + average(numbers));
+	/*
+	 * public static Map<Character, String> stringToMap(List<String> strings) {
+	 * return strings.stream().collect(Collectors.toMap(s -> s.charAt(0), s ->
+	 * s.substring(1))); }
+	 */
+	
+    public static List<Integer> parseNumbers(String input) {
+        return Arrays.stream(input.split(","))
+                .map(String::trim)
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
+    }
 
-		List<String> strings = Arrays.asList("hello", "world");
-		System.out.println("Prefixed Strings: " + prefixStrings(strings));
-
-		List<Integer> uniqueNumbers = Arrays.asList(1, 2, 2, 3, 4, 4, 5);
-		System.out.println("Squares of Unique Numbers: " + squaresOfUnique(uniqueNumbers));
-
-		System.out.println("Last Element: " + getLastElement(numbers));
-
-		int[] numArray = { 1, 2, 3, 4, 5 };
-		System.out.println("Sum of Even Numbers: " + sumOfEven(numArray));
-
-		List<String> forMap = Arrays.asList("apple", "banana", "cherry");
-		System.out.println("Map from Strings: " + stringToMap(forMap).entrySet());
-	}
+	/*
+	 * public static void main(String[] args) { List<Integer> numbers =
+	 * Arrays.asList(1, 2, 3, 4, 5); System.out.println("Average: " +
+	 * average(numbers));
+	 * 
+	 * List<String> strings = Arrays.asList("hello", "world");
+	 * System.out.println("Prefixed Strings: " + prefixStrings(strings));
+	 * 
+	 * List<Integer> uniqueNumbers = Arrays.asList(1, 2, 2, 3, 4, 4, 5);
+	 * System.out.println("Squares of Unique Numbers: " +
+	 * squaresOfUnique(uniqueNumbers));
+	 * 
+	 * System.out.println("Last Element: " + getLastElement(numbers));
+	 * 
+	 * int[] numArray = { 1, 2, 3, 4, 5 };
+	 * System.out.println("Sum of Even Numbers: " + sumOfEven(numArray));
+	 * 
+	 * List<String> forMap = Arrays.asList("apple", "banana", "cherry");
+	 * System.out.println("Map from Strings: " + stringToMap(forMap).entrySet()); }
+	 */
 }
