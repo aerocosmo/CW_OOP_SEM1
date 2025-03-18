@@ -64,9 +64,11 @@ public class StreamOperations {
 		List<String> strings = Arrays.asList("hello", "world");
 			System.out.println("Prefixed Strings: " + prefixStrings(strings));
 		
-		List<Integer> uniqueNumbers = Arrays.asList(1, 2, 2, 3, 4, 4, 5);
-		System.out.println("Squares of Unique Numbers: " +
-			squaresOfUnique(uniqueNumbers));
+		//List<Integer> uniqueNumbers = Arrays.asList(1, 2, 2, 3, 4, 4, 5);
+		//System.out.println("Squares of Unique Numbers: " +
+		//	squaresOfUnique(uniqueNumbers));
+		List<Number> mixedNumbers = Arrays.asList(1, 2.1, 2, 3.5f, 2);
+	    System.out.println("Squares of Unique (Mixed Types): " + squaresOfUnique(mixedNumbers));
 		
 		System.out.println("Last Element: " + getLastElement(numbers));
 		
