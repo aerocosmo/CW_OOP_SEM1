@@ -18,6 +18,16 @@ class FileReadException extends Exception {
 public class Translator {
 	private Map<String, String> dictionary = new HashMap<>();
 
+	private String dictionaryPath;
+
+	public void setDictionaryPath(String path) {
+	    this.dictionaryPath = path;
+	}
+
+	public String getDictionaryPath() {
+	    return this.dictionaryPath;
+	}
+	
 	public void loadDictionary(String filename) throws InvalidFileFormatException, FileReadException {
 		try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
 			String line;
@@ -93,14 +103,14 @@ public class Translator {
 	}
 
 
-	/*
-	 * public static void main(String[] args) { Translator translator = new
-	 * Translator(); try { translator.loadDictionary(
-	 * "D:\\eclipse-workspace\\CourseWork_OOP_Java\\src\\CW\\dictionary.txt");
-	 * Scanner scanner = new Scanner(System.in); while (true) {
-	 * System.out.print("Enter text to translate: "); String text =
-	 * scanner.nextLine(); if (text.equalsIgnoreCase("exit")) break;
-	 * System.out.println("Translation: " + translator.translate(text)); } } catch
-	 * (Exception e) { System.err.println(e.getMessage()); } }
-	 */
+	public static void main(String[] args) { 
+		Translator translator = new
+			Translator(); try { translator.loadDictionary(
+					"D:\\eclipse-workspace\\CourseWork_OOP_Java\\src\\CW\\dictionary.txt");
+		Scanner scanner = new Scanner(System.in); while (true) {
+			System.out.print("Enter text to translate: "); String text =
+					scanner.nextLine(); if (text.equalsIgnoreCase("exit")) break;
+	 System.out.println("Translation: " + translator.translate(text)); } } catch
+			(Exception e) { System.err.println(e.getMessage()); } 
+	}
 }

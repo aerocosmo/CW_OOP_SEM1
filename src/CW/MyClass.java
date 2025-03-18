@@ -64,7 +64,9 @@ public class MyClass {
 
     // Вспомогательный метод для создания аргументов для методов
     private static Object[] createArgumentsForMethod(Method method) {
-        Class<?>[] paramTypes = method.getParameterTypes();
+        Class<?>[] paramTypes = method.getParameterTypes(); 
+        //<?> — это wildcard (подстановочный знак), который означает, 
+        //что мы работаем с объектом неизвестного типа.
         Object[] args = new Object[paramTypes.length];
 
         for (int parameterId = 0; parameterId < paramTypes.length; parameterId++) {
