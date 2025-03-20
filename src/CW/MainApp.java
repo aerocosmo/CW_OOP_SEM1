@@ -215,17 +215,6 @@ public class MainApp {
                 outputAreaTask4.setText("Error: Invalid input format");
             }
         });
-		/*
-		 * squaresUniqueButton.addActionListener(e -> { if
-		 * (inputTextField.getText().trim().isEmpty()) {
-		 * outputAreaTask4.setText("Error: Input is empty"); return; } try {
-		 * List<Integer> numbers =
-		 * StreamOperations.parseNumbers(inputTextField.getText()); List<Integer>
-		 * squares = StreamOperations.squaresOfUnique(numbers);
-		 * outputAreaTask4.setText("Squares of unique numbers: " + squares); } catch
-		 * (Exception ex) { outputAreaTask4.setText("Error: Invalid input format"); }
-		 * });
-		 */
 
         sumEvenButton.addActionListener(e -> {
             if (inputTextField.getText().trim().isEmpty()) {

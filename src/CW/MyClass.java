@@ -89,4 +89,22 @@ public class MyClass {
         }
         return args;
     }
+    public static void main(String[] args) throws InvocationTargetException, IllegalAccessException {
+		MyClass obj = new MyClass();
+		Method[] methods = MyClass.class.getDeclaredMethods();
+
+		for (Method m : methods) {
+			if (m.isAnnotationPresent(Repeat.class)) {
+				Repeat repeatAnnotation = m.getAnnotation(Repeat.class);
+				int repeatCount = repeatAnnotation.value();
+				m.setAccessible(true);
+				for (int i = 0; i < repeatCount; i++) {
+					if (m.getParameterCount() == 1 && m.getParameterTypes()[0] == String.class)
+						m.invoke(obj, "testString");
+					else if (m.getParameterCount() == 1 && m.getParameterTypes()[0] == double.class)
+						m.invoke(obj, 3.14);
+				}
+			}
+		}
+	}
 }
